@@ -1,33 +1,141 @@
 <html>
-
-<body>
-<button type="button" onclick="myFunction()"> Navigate!!</button>
-
-</body>
-<script>
-function myFunction() {
-	postData('http://127.0.0.1:5000/navigate', { move:'left' })
-  .then(data => {
-    console.log(data); // JSON data parsed by `data.json()` call
-  });
+   <head>
+      <meta charset="utf-8">
+      <title>Display a map on a webpage</title>
+      <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+      <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
+      <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+      <style>
+         body { margin: 0; padding: 0; }
+         #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+         #menu {
+position: absolute;
+background: #efefef;
+padding: 10px;
+font-family: 'Open Sans', sans-serif;
+bottom: 25px;
 }
 
-async function postData(url = '', data = {}) {
-  // Default options are marked with *
-  const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
+      </style>
+   </head>
+   <body>
+      <body>
+         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css">
+         <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+         <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
+         <div id="map"></div>
+         <div id="menu">
+      <input id="satellite-street-v11" type="radio" name="rtoggle" value="satellite-street" checked="checked">
+      <label for="satellite-street-v11">satellite-street</label>
+
+<input id="satellite-v9" type="radio" name="rtoggle" value="satellite">
+<!-- See a list of Mapbox-hosted public styles at https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+<label for="satellite-v9">satellite</label>
+<input id="light-v10" type="radio" name="rtoggle" value="light">
+<label for="light-v10">light</label>
+<input id="dark-v10" type="radio" name="rtoggle" value="dark">
+<label for="dark-v10">dark</label>
+<input id="streets-v11" type="radio" name="rtoggle" value="streets">
+<label for="streets-v11">streets</label>
+<input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+<label for="outdoors-v11">outdoors</label>
+</div>
+         <script>
+            // TO MAKE THE MAP APPEAR YOU MUST
+            // ADD YOUR ACCESS TOKEN FROM
+            // https://account.mapbox.com
+            mapboxgl.accessToken = 'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
+            var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/satellite-streets-v11', // style URL
+            center: [18.07030,59.32495], // starting position [lng, lat]
+            zoom: 13 // starting zoom
+            });
+            
+            map.addControl(
+            new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+            })
+            );
+            map.addControl(new mapboxgl.NavigationControl());
+            map.addControl(
+            new MapboxDirections({
+            accessToken: mapboxgl.accessToken
+            }),
+            'top-left'
+            );
+            map.on('load', function () {
+               map.addSource('contours', {
+               type: 'vector',
+               url: 'mapbox://mapbox.mapbox-terrain-v2'
+               });
+               map.addLayer({
+               'id': 'contours',
+               'type': 'line',
+               'source': 'contours',
+               'source-layer': 'contour',
+               'layout': {
+               // make layer visible by default
+               'visibility': 'visible',
+               'line-join': 'round',
+               'line-cap': 'round'
+               },
+               'paint': {
+               'line-color': '#877b59',
+               'line-width': 1
+               }
+               });
+               map.addSource('traffic', {
+               type: 'vector',
+               url: 'mapbox://mapbox.mapbox-streets-v8'
+               });
+               map.addLayer({
+               'id': 'admin',
+               'type': 'admin',
+               'source': 'traffic',
+               'source-layer': 'admin',
+               'layout': {
+               // make layer visible by default
+               'visibility': 'visible',
+               'line-join': 'round',
+               'line-cap': 'round'
+               },
+               'paint': {
+               'line-color': '#ffffff',
+               'line-width': 1
+               }
+               });
+               map.addLayer({
+               'id': 'building',
+               'type': 'fill',
+               'source': 'traffic',
+               'source-layer': 'building',
+               'layout': {
+               // make layer visible by default
+               'visibility': 'visible'
+               },
+               'paint': {
+               'fill-color': 'rgba(66,100,251, 0.3)',
+               'fill-outline-color': 'rgba(66,100,251, 1)'
+               }
+               });
+            });
+            var layerList = document.getElementById('menu');
+var inputs = layerList.getElementsByTagName('input');
+ 
+function switchLayer(layer) {
+var layerId = layer.target.id;
+map.setStyle('mapbox://styles/mapbox/' + layerId);
 }
-</script>
+ 
+for (var i = 0; i < inputs.length; i++) {
+inputs[i].onclick = switchLayer;
+}
+         </script>
+   </body>
 </html>
