@@ -1,5 +1,3 @@
-
-
 <html>
    <head>
       <meta charset="utf-8">
@@ -19,332 +17,399 @@
          }
       </style>
    </head>
-   <body><style>
-#menu {
-background: #fff;
-position: absolute;
-z-index: 1;
-right: 10px;
-border-radius: 3px;
-width: 120px;
-border: 1px solid rgba(0, 0, 0, 0.4);
-font-family: 'Open Sans', sans-serif;
-}
- 
-#menu a {
-font-size: 13px;
-color: #404040;
-display: block;
-margin: 0;
-padding: 0;
-padding: 10px;
-text-decoration: none;
-border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-text-align: center;
-}
- 
-#menu a:last-child {
-border: none;
-}
- 
-#menu a:hover {
-background-color: #f8f8f8;
-color: #404040;
-}
- 
-#menu a.active {
-background-color: #3887be;
-color: #ffffff;
-}
- 
-#menu a.active:hover {
-background: #3074a4;
-}
-</style>
- 
-<nav id="menu"></nav>
-         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
-         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css">
-         <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
-         <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
-         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
-         <div id="map"></div>
-         <script>
-            // TO MAKE THE MAP APPEAR YOU MUST
-            // ADD YOUR ACCESS TOKEN FROM
-            // https://account.mapbox.com
-            var apiKey = '93207702882a463c9fc8e53777fcf006'; // Your BreezoMeter API key
-            mapboxgl.accessToken = 'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
-            var map = new mapboxgl.Map({
-            container: 'map', // container id
-            style: 'mapbox://styles/mapbox/streets-v11', // style URL
-            center: [18.07030,59.32495], // starting position [lng, lat]
-            zoom: 11// starting zoom
-            //pitch: 60
-            
+   <body>
+      <style>
+         #menu {
+         background: #fff;
+         position: absolute;
+         z-index: 1;
+         right: 10px;
+         border-radius: 3px;
+         width: 120px;
+         border: 1px solid rgba(0, 0, 0, 0.4);
+         font-family: 'Open Sans', sans-serif;
+         }
+         #menu a {
+         font-size: 13px;
+         color: #404040;
+         display: block;
+         margin: 0;
+         padding: 0;
+         padding: 10px;
+         text-decoration: none;
+         border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+         text-align: center;
+         }
+         #menu a:last-child {
+         border: none;
+         }
+         #menu a:hover {
+         background-color: #f8f8f8;
+         color: #404040;
+         }
+         #menu a.active {
+         background-color: #3887be;
+         color: #ffffff;
+         }
+         #menu a.active:hover {
+         background: #3074a4;
+         }
+      </style>
+      <nav id="menu"></nav>
+      <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+      <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css">
+      <!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+      <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+      <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+      <script src=''></script>
+      <script src=''></script>
+      <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+      <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
+      <div id="map"></div>
+      <script>
+         // TO MAKE THE MAP APPEAR YOU MUST
+         // ADD YOUR ACCESS TOKEN FROM
+         // https://account.mapbox.com
+         var apiKey = '93207702882a463c9fc8e53777fcf006'; // Your BreezoMeter API key
+         mapboxgl.accessToken = 'pk.eyJ1Ijoic3lhbDEyMyIsImEiOiJja2xxZmp2ejMxY2xlMm5uM2EwbzN4N2RiIn0.fbgkVbfRijgPYmlPWYtPqg';
+         var map = new mapboxgl.Map({
+         container: 'map', // container id
+         style: 'mapbox://styles/mapbox/streets-v11', // style URL
+         center: [18.07030,59.32495], // starting position [lng, lat]
+         zoom: 10// starting zoom
+         
+         });
+         
+         map.addControl(
+         new MapboxGeocoder({
+         accessToken: mapboxgl.accessToken,
+         mapboxgl: mapboxgl
+         })
+         );
+         // map.addControl(new mapboxgl.NavigationControl());
+         map.addControl(
+         new MapboxDirections({
+         accessToken: mapboxgl.accessToken
+         }),
+         'top-left'
+         );
+         /* map.on('load', function () {
+            map.addSource('contours', {
+            type: 'vector',
+            url: 'mapbox://mapbox.mapbox-terrain-v2'
             });
-            
-            map.addControl(
-            new MapboxGeocoder({
-            accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl
-            })
-            );
-           // map.addControl(new mapboxgl.NavigationControl());
-            map.addControl(
-            new MapboxDirections({
-            accessToken: mapboxgl.accessToken
-            }),
-            'top-left'
-            );
-            /* map.on('load', function () {
-               map.addSource('contours', {
-               type: 'vector',
-               url: 'mapbox://mapbox.mapbox-terrain-v2'
-               });
-               map.addLayer({
-               'id': 'contours',
-               'type': 'line',
-               'source': 'contours',
-               'source-layer': 'contour',
-               'layout': {
-               // make layer visible by default
-               'visibility': 'visible',
-               'line-join': 'round',
-               'line-cap': 'round'
-               },
-               'paint': {
-               'line-color': '#877b59',
-               'line-width': 1
-               }
-               });
-               map.addSource('traffic', {
-               type: 'vector',
-               url: 'mapbox://mapbox.mapbox-streets-v8'
-               });
-               map.addLayer({
-               'id': 'admin',
-               'type': 'admin',
-               'source': 'traffic',
-               'source-layer': 'admin',
-               'layout': {
-               // make layer visible by default
-               'visibility': 'visible',
-               'line-join': 'round',
-               'line-cap': 'round'
-               },
-               'paint': {
-               'line-color': '#ffffff',
-               'line-width': 1
-               }
-               });
-               map.addLayer({
-               'id': 'building',
-               'type': 'fill',
-               'source': 'traffic',
-               'source-layer': 'building',
-               'layout': {
-               // make layer visible by default
-               'visibility': 'visible'
-               },
-               'paint': {
-               'fill-color': 'rgba(66,100,251, 0.3)',
-               'fill-outline-color': 'rgba(66,100,251, 1)'
-               }
-               });
-            }); */
-            
-            /*  map.on('load', function () {
-            map.addSource('wms-test-source', {
-            'type': 'raster',
-            // use the tiles option to specify a WMS tile source URL
-            // https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/
-            'tiles': [
-            'https://gis.slbanalys.se/geoserver/slb/wms?service=WMS&request=GetMap&layers=aqhi_d03&styles=&format=image%2Fpng&transparent=true&version=1.3.0&width=256&height=256&crs=EPSG%3A3011&bbox=6459374.999999156,149624.99999999994,6581249.999999152,151499.99999999997&tiled=true'
-            ],
-            'tileSize': 256
+            map.addLayer({
+            'id': 'contours',
+            'type': 'line',
+            'source': 'contours',
+            'source-layer': 'contour',
+            'layout': {
+            // make layer visible by default
+            'visibility': 'visible',
+            'line-join': 'round',
+            'line-cap': 'round'
+            },
+            'paint': {
+            'line-color': '#877b59',
+            'line-width': 1
+            }
             });
-            map.addLayer(
-            {
-            'id': 'wms-test-layer',
-            'type': 'raster',
-            'source': 'wms-test-source',
-            'paint': {}
-            },
-            'aeroway-line'
-            );
-            }); */
-            
-            //breezometer
-            map.on("load", function() {
-           addRasterSource();
-           addRasterLayer();
-            addRoadsSource();
-            addRoadsLayer();
-           addpm25Raster();
-           addPm25Layer();
-     
+            map.addSource('traffic', {
+            type: 'vector',
+            url: 'mapbox://mapbox.mapbox-streets-v8'
             });
-            map.on("load", function() {
-
-      });
-
-            function addRoadsSource() {
-               map.addSource("roads", {
-               type: "vector",
-               tiles: [
-            `https://tiles.breezometer.com/v1/air-quality/traffic-pollution/current-conditions/{z}/{x}/{y}.pbf?key=${apiKey}`
-          ],
-          minzoom: 0,
-          maxzoom: 10
-        });
-      }
-
-      function addRoadsLayer() {
-        map.addLayer(
-          {
-            id: "traffic",
-            source: "roads",
-            "source-layer": "brz-roads",
-            type: "line",
-            layout: {
-              "line-cap": "round",
-              "visibility": "none"
+            map.addLayer({
+            'id': 'admin',
+            'type': 'admin',
+            'source': 'traffic',
+            'source-layer': 'admin',
+            'layout': {
+            // make layer visible by default
+            'visibility': 'visible',
+            'line-join': 'round',
+            'line-cap': 'round'
             },
-            minzoom: 3,
-            maxzoom: 24
-          },
-          "admin-1-boundary-bg"
-        );
-      }
-      function addpm25Raster() {
-        map.addSource("breezometer-tiles-pm25", {
-          type: "raster",
-          tiles: [`https://tiles.breezometer.com/v1/air-quality/pm25/current-conditions/{z}/{x}/{y}.png?key=${apiKey}`],
-          tileSize: 256,
-          maxzoom: 8
-        });
-      }
-
-      function addPm25Layer() {
-        map.addLayer(
-          {
-            id: "pm25",
-            type: "raster",
-            source: "breezometer-tiles-pm25",
-            minzoom: 0,
-            maxzoom: 22,
-            layout: {
-               "visibility" : "none"
-            },
-            paint: {
-              "raster-opacity": 0.6
+            'paint': {
+            'line-color': '#ffffff',
+            'line-width': 1
             }
-          },
-          "admin-1-boundary-bg"
-        );
-      }
-
-      function addPollenSource() {
-        map.addSource("breezometer-tiles-pollen", {
-          type: "raster",
-          tiles: [`https://tiles.breezometer.com/v1/pollen/grass/forecast/daily/{z}/{x}/{y}.png?key=${apiKey}`],
-          tileSize: 256,
-          maxzoom: 8
-        });
-      }
-
-      function addPollenLayer() {
-        map.addLayer(
-          {
-            id: "pollen",
-            type: "raster",
-            source: "breezometer-tiles-pollen",
-            minzoom: 0,
-            maxzoom: 22,
-            paint: {
-              "raster-opacity": 0.6
-            },
-              layout: {
-               "visibility" : "none"
-            },
-
-          },
-          "admin-1-boundary-bg"
-        );
-      }
-            
-            // enumerate ids of the layers
-            var toggleableLayerIds = ['aqi', 'pm25', 'traffic'];
-            
-            // set up the corresponding toggle button for each layer
-            for (var i = 0; i < toggleableLayerIds.length; i++) {
-            var id = toggleableLayerIds[i];
-            
-            var link = document.createElement('a');
-            link.href = '#';
-            link.className = '';
-            link.textContent = id.toUpperCase();
-            if(id == 'aqi') {
-               link.className = 'active'
-            }
-            
-            link.onclick = function (e) {
-            var clickedLayer = this.textContent.toLowerCase();
-            e.preventDefault();
-            e.stopPropagation();
-            
-            var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-            
-            // toggle layer visibility by changing the layout object's visibility property
-            if (visibility === 'visible') {
-            map.setLayoutProperty(clickedLayer, 'visibility', 'none');
-            this.className = '';
-            } else {
-            this.className = 'active';
-            map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-            }
-            };
-            
-            var layers = document.getElementById('menu');
-            layers.appendChild(link);
-            }
-           
-            
-            function addRasterSource() {
-            map.addSource("breezometer-tiles", {
-            type: "raster",
-            tiles: [
-            `https://tiles.breezometer.com/v1/air-quality/breezometer-aqi/current-conditions/{z}/{x}/{y}.png?key=${apiKey}`//
-            ],
-            tileSize: 256,
-            maxzoom: 8
             });
-            }
-            
-            function addRasterLayer() {
-            map.addLayer(
-            {
-            id: "aqi",
-            type: "raster",
-            source: "breezometer-tiles",
-            minzoom: 0,
-            maxzoom: 22,
+            map.addLayer({
+            'id': 'building',
+            'type': 'fill',
+            'source': 'traffic',
+            'source-layer': 'building',
             'layout': {
             // make layer visible by default
             'visibility': 'visible'
             },
-            paint: {
-              "raster-opacity": 0.6
+            'paint': {
+            'fill-color': 'rgba(66,100,251, 0.3)',
+            'fill-outline-color': 'rgba(66,100,251, 1)'
             }
-            },
-            "admin-1-boundary-bg"
-            );
-            }
-           
-         </script>
+            });
+         }); */
+         
+         /*  map.on('load', function () {
+         map.addSource('wms-test-source', {
+         'type': 'raster',
+         // use the tiles option to specify a WMS tile source URL
+         // https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/
+         'tiles': [
+         'https://gis.slbanalys.se/geoserver/slb/wms?service=WMS&request=GetMap&layers=aqhi_d03&styles=&format=image%2Fpng&transparent=true&version=1.3.0&width=256&height=256&crs=EPSG%3A3011&bbox=6459374.999999156,149624.99999999994,6581249.999999152,151499.99999999997&tiled=true'
+         ],
+         'tileSize': 256
+         });
+         map.addLayer(
+         {
+         'id': 'wms-test-layer',
+         'type': 'raster',
+         'source': 'wms-test-source',
+         'paint': {}
+         },
+         'aeroway-line'
+         );
+         }); */
+         
+         //breezometer
+         map.on("load", function() {
+         addRasterSource();
+         addRasterLayer();
+         addRoadsSource();
+         addRoadsLayer();
+         addpm25Raster();
+         addPm25Layer();
+         
+         addpm10Raster();
+         addPm10Layer();
+         addAqiSlbRaster();
+         addAqiSlbLayer();
+         });
+         
+         function addpm10Raster() {
+         map.addSource('wmsPM10Source', {
+         'type': 'raster',
+         // use the tiles option to specify a WMS tile source URL
+         // https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/
+         'tiles': [
+         
+         
+         'https://gis.slbanalys.se/geoserver/slb/wms?service=WMS&request=GetMap&layers=pm10_h01h24&styles=&format=image%2Fpng&transparent=true&version=1.3.0&width=256&height=256&crs=EPSG%3A3857&bbox={bbox-epsg-3857}'
+         ],
+         'tileSize': 256
+         });}
+         
+         function addAqiSlbRaster() {
+         map.addSource('aqiSlbSource', {
+         'type': 'raster',
+         // use the tiles option to specify a WMS tile source URL
+         // https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/
+         'tiles': [
+         
+         'https://gis.slbanalys.se/geoserver/slb/wms?service=WMS&request=GetMap&layers=aqhi_h01h24&styles=&format=image%2Fpng&transparent=true&version=1.3.0&width=256&height=256&crs=EPSG%3A3857&bbox={bbox-epsg-3857}'
+         ],
+         'tileSize': 256
+         });
+         }
+         
+         
+         function addAqiSlbLayer() {
+         map.addLayer(
+         {
+         'id': 'aqiSlbLayer',
+         'type': 'raster',
+         'source': 'aqiSlbSource',
+         minzoom: 0,
+         maxzoom: 10,
+         layout: {
+          "visibility" : "none"
+         },
+         paint: {
+           "raster-opacity": 0.6
+         }
+         
+         }
+         //'aeroway-line'
+         );
+         }     
+         
+         
+         function addPm10Layer() {
+         map.addLayer(
+         {
+         'id': 'wmsPM10Layer',
+         'type': 'raster',
+         'source': 'wmsPM10Source',
+         minzoom: 0,
+         maxzoom: 10,
+         layout: {
+          "visibility" : "visible"
+         },
+         paint: {
+           "raster-opacity": 0.6
+         }
+         
+         }
+         //'aeroway-line'
+         );
+         }
+         
+         function addRoadsSource() {
+            map.addSource("roads", {
+            type: "vector",
+            tiles: [
+         `https://tiles.breezometer.com/v1/air-quality/traffic-pollution/current-conditions/{z}/{x}/{y}.pbf?key=${apiKey}`
+         ],
+         minzoom: 0,
+         maxzoom: 10
+         });
+         }
+         
+         function addRoadsLayer() {
+         map.addLayer(
+         {
+         id: "traffic",
+         source: "roads",
+         "source-layer": "brz-roads",
+         type: "line",
+         layout: {
+           "line-cap": "round",
+           "visibility": "none"
+         },
+         minzoom: 3,
+         maxzoom: 24
+         },
+         "admin-1-boundary-bg"
+         );
+         }
+         function addpm25Raster() {
+         map.addSource("breezometer-tiles-pm25", {
+         type: "raster",
+         tiles: [`https://tiles.breezometer.com/v1/air-quality/pm25/current-conditions/{z}/{x}/{y}.png?key=${apiKey}`],
+         tileSize: 256,
+         maxzoom: 8
+         });
+         }
+         
+         function addPm25Layer() {
+         map.addLayer(
+         {
+         id: "pm25",
+         type: "raster",
+         source: "breezometer-tiles-pm25",
+         minzoom: 0,
+         maxzoom: 22,
+         layout: {
+            "visibility" : "none"
+         },
+         paint: {
+           "raster-opacity": 0.6
+         }
+         },
+         "admin-1-boundary-bg"
+         );
+         }
+         
+         function addPollenSource() {
+         map.addSource("breezometer-tiles-pollen", {
+         type: "raster",
+         tiles: [`https://tiles.breezometer.com/v1/pollen/grass/forecast/daily/{z}/{x}/{y}.png?key=${apiKey}`],
+         tileSize: 256,
+         maxzoom: 8
+         });
+         }
+         
+         function addPollenLayer() {
+         map.addLayer(
+         {
+         id: "pollen",
+         type: "raster",
+         source: "breezometer-tiles-pollen",
+         minzoom: 0,
+         maxzoom: 22,
+         paint: {
+           "raster-opacity": 0.6
+         },
+           layout: {
+            "visibility" : "none"
+         },
+         
+         },
+         "admin-1-boundary-bg"
+         );
+         }
+         
+         // enumerate ids of the layers
+         var toggleableLayerIds = ['aqi', 'pm25', 'traffic','aqiSlbLayer','wmsPM10Layer'];
+         
+         // set up the corresponding toggle button for each layer
+         for (var i = 0; i < toggleableLayerIds.length; i++) {
+         var id = toggleableLayerIds[i];
+         
+         var link = document.createElement('a');
+         link.href = '#';
+         link.className = '';
+         link.textContent = id.toUpperCase();
+         if(id == 'aqi') {
+            link.className = 'active'
+         }
+         link.title = id;
+         
+         link.onclick = function (e) {
+         //var clickedLayer = this.textContent.toLowerCase();
+         var clickedLayer = this.title;
+         e.preventDefault();
+         e.stopPropagation();
+         
+         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+         
+         // toggle layer visibility by changing the layout object's visibility property
+         if (visibility === 'visible') {
+         map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+         this.className = '';
+         } else {
+         this.className = 'active';
+         map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+         }
+         };
+         
+         var layers = document.getElementById('menu');
+         layers.appendChild(link);
+         }
+         
+         
+         function addRasterSource() {
+         map.addSource("breezometer-tiles", {
+         type: "raster",
+         tiles: [
+         `https://tiles.breezometer.com/v1/air-quality/breezometer-aqi/current-conditions/{z}/{x}/{y}.png?key=${apiKey}`//
+         ],
+         tileSize: 256,
+         maxzoom: 8
+         });
+         }
+         
+         function addRasterLayer() {
+         map.addLayer(
+         {
+         id: "aqi",
+         type: "raster",
+         source: "breezometer-tiles",
+         minzoom: 0,
+         maxzoom: 22,
+         'layout': {
+         // make layer visible by default
+         'visibility': 'visible'
+         },
+         paint: {
+           "raster-opacity": 0.6
+         }
+         },
+         "admin-1-boundary-bg"
+         );
+         }
+         
+      </script>
    </body>
 </html>
-
