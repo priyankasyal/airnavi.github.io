@@ -690,6 +690,7 @@
                 e.stopPropagation();
 
                 var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+                map.setLayoutProperty('places','visibility','none');
 
                 // toggle layer visibility by changing the layout object's visibility property
                 if (visibility === 'visible') {
@@ -790,10 +791,14 @@
 
             //Get status of history layer visibility
             var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
+            var markerVisibility = map.getLayoutProperty('places', 'visibility');
+
 
             // toggle history visibility by changing the layout object's visibility property
             if (visibility === 'visible') {
                 map.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                map.setLayoutProperty('places','visibility','none');
+
                 this.className = '';
 
                 //Disable slider
@@ -812,6 +817,8 @@
                 //setting this layer active
                 this.className = 'active';
                 map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+                map.setLayoutProperty('places','visibility','visible');
+
                 document.getElementById('active-layer-label').innerText = 'PM10';
 
                 //Display slider
