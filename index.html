@@ -328,6 +328,7 @@
             addAqiSlbLayer();
             addMarkerSource();
             addMarkerLayer();
+            map.setLayoutProperty('places','visibility','none');
 
             //Fetching file for heatmap data
             map.addSource('sthlm', {
