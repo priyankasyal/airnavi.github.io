@@ -285,7 +285,7 @@ for(var i = 0; i < routeInfo.routes[0].legs.length;i++) {
             var color = getRandomColor();
          
       map.addLayer({
-      "id": "route"+this.i+this.j,
+      "id": "route"+i+j,
       "type": "line",
       "source": {
         "type": "geojson",
@@ -301,7 +301,7 @@ for(var i = 0; i < routeInfo.routes[0].legs.length;i++) {
       },
       "paint": {
         "line-color": getRandomColor(),
-        "line-width": 16,
+        "line-width": 14,
         "line-opacity": 1
       }
     });
