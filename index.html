@@ -221,7 +221,7 @@ function getMatch(e) {
 
 
 
-function addIndividualRoute(coords) {
+/*function addIndividualRoute(coords) {
   //breezometerCoordsDataArray = coords.coordinates;
 
 //  getBreezometerData(breezometerCoordsDataArray);
@@ -274,7 +274,45 @@ for(var i = 0; i < routeInfo.routes[0].legs.length;i++) {
 
 }
 }
+*/
 
+function addIndividualRoute(coords) {
+  //breezometerCoordsDataArray = coords.coordinates;
+
+//  getBreezometerData(breezometerCoordsDataArray);
+for(var i = 0; i < routeInfo.routes[0].legs.length;i++) {
+  for(var j =0; j < routeInfo.routes[0].legs[i].steps.length;j++) {
+            var color = getRandomColor();
+         
+      map.addLayer({
+      "id": "route"+this.i+this.j,
+      "type": "line",
+      "source": {
+        "type": "geojson",
+        "data": {
+          "type": "Feature",
+          "properties": {},
+          "geometry": routeInfo.routes[0].legs[i].steps[j].geometry
+        }
+      },
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": getRandomColor(),
+        "line-width": 16,
+        "line-opacity": 1
+      }
+    });
+    
+} 
+
+      
+       
+  };
+
+}
 
 
 function getRandomColor() {
